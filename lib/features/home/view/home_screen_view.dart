@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:spotify_api_project/features/home/provider/home_provider.dart';
 
 import '../../category_playlists/view/category_playlist_view.dart';
@@ -21,58 +22,17 @@ class HomeScreenView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     customAppbar(),
-                    firstCategory(),
+                    //firstCategory(),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    titleGenre(),
+                    provider.isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : genreList(provider),
                     firstGrid(provider),
-                    titleSecondList(),
-                    Container(
-                      height: 29.h,
-                      // color: Colors.red,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 6,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Container(
-                                  width: 44.w,
-                                  margin: EdgeInsets.symmetric(horizontal: 2.w),
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xff2a2929),
-                                      borderRadius:
-                                          BorderRadius.circular(12.0)),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 3.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text(
-                                        "asdoafopsetıor,",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
-                                      ),
-                                      Text(
-                                        "title,",
-                                        style: TextStyle(color: Colors.grey),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          );
-                        },
-                      ),
-                    )
                   ],
                 ),
               );
@@ -80,6 +40,36 @@ class HomeScreenView extends StatelessWidget {
           }),
     );
   }
+}
+
+genreList(HomeProvider provider) {
+  return Container(
+    height: 6.h,
+    margin: EdgeInsets.only(left: 3.w),
+    // color: Colors.red,
+    child: ListView.builder(
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemCount: provider.genresReponse?.genres?.length,
+      itemBuilder: (context, index) {
+        var item = provider.genresReponse?.genres?[index];
+        return Container(
+          alignment: Alignment.centerLeft,
+          margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
+          padding: EdgeInsets.symmetric(
+            horizontal: 4.w,
+          ),
+          decoration: BoxDecoration(
+              color: const Color(0xff2a2929),
+              borderRadius: BorderRadius.circular(20.0)),
+          child: Text(
+            item.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+        );
+      },
+    ),
+  );
 }
 
 customAppbar() {
@@ -163,6 +153,7 @@ firstGrid(HomeProvider provider) {
                   );
                 },
                 child: Container(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
                   width: 50.w,
                   height: 10.h,
                   margin:
@@ -174,9 +165,32 @@ firstGrid(HomeProvider provider) {
                     children: [
                       Expanded(
                         flex: 2,
-                        child: Image.network(categoryItem.icons![0].url!),
+                        child: Container(
+                          height: 10.h,
+                          child: Image.network(
+                            categoryItem.icons![0].url!,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                      Expanded(flex: 3, child: Container())
+                      Expanded(
+                          flex: 3,
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  categoryItem.name.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      letterSpacing: .5,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w500),
+                                )
+                              ],
+                            ),
+                          ))
                     ],
                   ),
                 ),
@@ -186,11 +200,11 @@ firstGrid(HomeProvider provider) {
         );
 }
 
-titleSecondList() {
+titleGenre() {
   return Padding(
     padding: EdgeInsets.only(left: 3.w, top: 1.h, bottom: 1.h),
     child: const Text(
-      "Hoşuna gidebilicek programlar",
+      "Get Available Genre Seeds",
       style: TextStyle(
           color: Colors.white, fontWeight: FontWeight.bold, fontSize: 21.0),
     ),

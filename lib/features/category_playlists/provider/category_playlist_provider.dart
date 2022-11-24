@@ -13,7 +13,7 @@ class CategoryPlaylistProvider with ChangeNotifier {
 
   CategoryPlaylistProvider(this.context, this.categoryId) {
     homeService = HomeService();
-    getCategoryPlayist(categoryId: categoryId);
+    getCategoryPlaylist(categoryId: categoryId);
   }
 
   setIsLoading(bool b) {
@@ -21,7 +21,7 @@ class CategoryPlaylistProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  getCategoryPlayist({required String categoryId}) async {
+  getCategoryPlaylist({required String categoryId}) async {
     setIsLoading(true);
     categoryPlaylist =
         await homeService.getCategoryPlaylist(categoryId: categoryId);

@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:spotify_api_project/core/entity/albums_model.dart';
 import 'package:spotify_api_project/core/entity/category_model.dart';
 import 'package:spotify_api_project/core/entity/category_playlist.dart';
+import 'package:spotify_api_project/core/entity/genres_response.dart';
 import 'package:spotify_api_project/features/home/service/home_service.dart';
 
 class HomeProvider extends ChangeNotifier {
@@ -9,7 +13,8 @@ class HomeProvider extends ChangeNotifier {
   late HomeService homeService;
 
   CategoryModel? categoryModel;
-  
+  AlbumsResponse? albumsResponse;
+  GenresResponse? genresReponse;
 
   List<Items>? categoryList;
 
@@ -24,6 +29,8 @@ class HomeProvider extends ChangeNotifier {
     homeService = HomeService();
 
     getCategoryList();
+    //getAlbumsList();
+    getGenres();
   }
 
   getCategoryList() async {
@@ -37,5 +44,14 @@ class HomeProvider extends ChangeNotifier {
     setIsLoading(false);
   }
 
-  
+  getAlbumsList() async {
+    setIsLoading(true);
+    albumsResponse = await homeService.getAlbums();
+  }
+
+  getGenres() async {
+    setIsLoading(true);
+    genresReponse = await homeService.getGenres();
+    setIsLoading(false);
+  }
 }
