@@ -1,53 +1,25 @@
-class CategoryDetail {
-  Playlists? playlists;
-
-  CategoryDetail({this.playlists});
-
-  CategoryDetail.fromJson(Map<String, dynamic> json) {
-    playlists = json['playlists'] != null
-        ? new Playlists.fromJson(json['playlists'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.playlists != null) {
-      data['playlists'] = this.playlists!.toJson();
-    }
-    return data;
-  }
-}
-
-class Playlists {
+class UserPlaylist {
   String? href;
-  List<PlaylistItems>? items;
+  List<UserPlaylistItems>? items;
   int? limit;
   String? next;
   int? offset;
-  String? previous;
   int? total;
 
-  Playlists(
-      {this.href,
-      this.items,
-      this.limit,
-      this.next,
-      this.offset,
-      this.previous,
-      this.total});
+  UserPlaylist(
+      {this.href, this.items, this.limit, this.next, this.offset, this.total});
 
-  Playlists.fromJson(Map<String, dynamic> json) {
+  UserPlaylist.fromJson(Map<String, dynamic> json) {
     href = json['href'];
     if (json['items'] != null) {
-      items = <PlaylistItems>[];
+      items = <UserPlaylistItems>[];
       json['items'].forEach((v) {
-        items!.add(new PlaylistItems.fromJson(v));
+        items!.add(new UserPlaylistItems.fromJson(v));
       });
     }
     limit = json['limit'];
     next = json['next'];
     offset = json['offset'];
-    previous = json['previous'];
     total = json['total'];
   }
 
@@ -60,13 +32,12 @@ class Playlists {
     data['limit'] = this.limit;
     data['next'] = this.next;
     data['offset'] = this.offset;
-    data['previous'] = this.previous;
     data['total'] = this.total;
     return data;
   }
 }
 
-class PlaylistItems {
+class UserPlaylistItems {
   bool? collaborative;
   String? description;
   ExternalUrls? externalUrls;
@@ -76,13 +47,13 @@ class PlaylistItems {
   String? name;
   Owner? owner;
   Null? primaryColor;
-  Null? public;
+  bool? public;
   String? snapshotId;
   Tracks? tracks;
   String? type;
   String? uri;
 
-  PlaylistItems(
+  UserPlaylistItems(
       {this.collaborative,
       this.description,
       this.externalUrls,
@@ -98,7 +69,7 @@ class PlaylistItems {
       this.type,
       this.uri});
 
-  PlaylistItems.fromJson(Map<String, dynamic> json) {
+  UserPlaylistItems.fromJson(Map<String, dynamic> json) {
     collaborative = json['collaborative'];
     description = json['description'];
     externalUrls = json['external_urls'] != null
@@ -168,9 +139,9 @@ class ExternalUrls {
 }
 
 class Images {
-  Null? height;
+  int? height;
   String? url;
-  Null? width;
+  int? width;
 
   Images({this.height, this.url, this.width});
 

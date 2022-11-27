@@ -1,9 +1,11 @@
-class CategoryDetail {
+class HomeFeaturedModel {
+  String? message;
   Playlists? playlists;
 
-  CategoryDetail({this.playlists});
+  HomeFeaturedModel({this.message, this.playlists});
 
-  CategoryDetail.fromJson(Map<String, dynamic> json) {
+  HomeFeaturedModel.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
     playlists = json['playlists'] != null
         ? new Playlists.fromJson(json['playlists'])
         : null;
@@ -11,6 +13,7 @@ class CategoryDetail {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['message'] = this.message;
     if (this.playlists != null) {
       data['playlists'] = this.playlists!.toJson();
     }
@@ -20,7 +23,7 @@ class CategoryDetail {
 
 class Playlists {
   String? href;
-  List<PlaylistItems>? items;
+  List<FeaturedItems>? items;
   int? limit;
   String? next;
   int? offset;
@@ -39,9 +42,9 @@ class Playlists {
   Playlists.fromJson(Map<String, dynamic> json) {
     href = json['href'];
     if (json['items'] != null) {
-      items = <PlaylistItems>[];
+      items = <FeaturedItems>[];
       json['items'].forEach((v) {
-        items!.add(new PlaylistItems.fromJson(v));
+        items!.add(new FeaturedItems.fromJson(v));
       });
     }
     limit = json['limit'];
@@ -66,7 +69,7 @@ class Playlists {
   }
 }
 
-class PlaylistItems {
+class FeaturedItems {
   bool? collaborative;
   String? description;
   ExternalUrls? externalUrls;
@@ -82,7 +85,7 @@ class PlaylistItems {
   String? type;
   String? uri;
 
-  PlaylistItems(
+  FeaturedItems(
       {this.collaborative,
       this.description,
       this.externalUrls,
@@ -98,7 +101,7 @@ class PlaylistItems {
       this.type,
       this.uri});
 
-  PlaylistItems.fromJson(Map<String, dynamic> json) {
+  FeaturedItems.fromJson(Map<String, dynamic> json) {
     collaborative = json['collaborative'];
     description = json['description'];
     externalUrls = json['external_urls'] != null

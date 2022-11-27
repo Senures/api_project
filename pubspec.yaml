@@ -35,6 +35,8 @@ dependencies:
   responsive_sizer: ^3.1.1
   dio: ^4.0.6
   shimmer: ^2.0.0
+  draggable_home: ^1.0.4
+  cached_network_image: ^3.2.3
 
 
   # The following adds the Cupertino Icons font to your application.

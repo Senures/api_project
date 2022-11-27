@@ -1,9 +1,11 @@
-class CategoryDetail {
+class FeaturedPlaylistResponse {
+  String? message;
   Playlists? playlists;
 
-  CategoryDetail({this.playlists});
+  FeaturedPlaylistResponse({this.message, this.playlists});
 
-  CategoryDetail.fromJson(Map<String, dynamic> json) {
+  FeaturedPlaylistResponse.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
     playlists = json['playlists'] != null
         ? new Playlists.fromJson(json['playlists'])
         : null;
@@ -11,6 +13,7 @@ class CategoryDetail {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['message'] = this.message;
     if (this.playlists != null) {
       data['playlists'] = this.playlists!.toJson();
     }
@@ -20,7 +23,7 @@ class CategoryDetail {
 
 class Playlists {
   String? href;
-  List<PlaylistItems>? items;
+  List<Items>? items;
   int? limit;
   String? next;
   int? offset;
@@ -39,9 +42,9 @@ class Playlists {
   Playlists.fromJson(Map<String, dynamic> json) {
     href = json['href'];
     if (json['items'] != null) {
-      items = <PlaylistItems>[];
+      items = <Items>[];
       json['items'].forEach((v) {
-        items!.add(new PlaylistItems.fromJson(v));
+        items!.add(new Items.fromJson(v));
       });
     }
     limit = json['limit'];
@@ -66,7 +69,7 @@ class Playlists {
   }
 }
 
-class PlaylistItems {
+class Items {
   bool? collaborative;
   String? description;
   ExternalUrls? externalUrls;
@@ -82,7 +85,7 @@ class PlaylistItems {
   String? type;
   String? uri;
 
-  PlaylistItems(
+  Items(
       {this.collaborative,
       this.description,
       this.externalUrls,
@@ -98,7 +101,7 @@ class PlaylistItems {
       this.type,
       this.uri});
 
-  PlaylistItems.fromJson(Map<String, dynamic> json) {
+  Items.fromJson(Map<String, dynamic> json) {
     collaborative = json['collaborative'];
     description = json['description'];
     externalUrls = json['external_urls'] != null
@@ -168,9 +171,9 @@ class ExternalUrls {
 }
 
 class Images {
-  Null? height;
+  num? height;
   String? url;
-  Null? width;
+  num? width;
 
   Images({this.height, this.url, this.width});
 

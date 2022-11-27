@@ -2,18 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:spotify_api_project/core/entity/category_playlist.dart';
 import 'package:spotify_api_project/features/home/service/home_service.dart';
 
-class CategoryPlaylistProvider with ChangeNotifier {
+class CategoryDetailProvider with ChangeNotifier {
   BuildContext context;
 
-  CategoryPlaylist? categoryPlaylist;
+  CategoryDetail? categoryDetail;
   late HomeService homeService;
   bool isLoading = false;
 
   String categoryId;
 
-  CategoryPlaylistProvider(this.context, this.categoryId) {
+  CategoryDetailProvider(this.context, this.categoryId) {
     homeService = HomeService();
-    getCategoryPlaylist(categoryId: categoryId);
+    getCategoryDetail(categoryId: categoryId);
   }
 
   setIsLoading(bool b) {
@@ -21,9 +21,9 @@ class CategoryPlaylistProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  getCategoryPlaylist({required String categoryId}) async {
+  getCategoryDetail({required String categoryId}) async {
     setIsLoading(true);
-    categoryPlaylist =
+    categoryDetail =
         await homeService.getCategoryPlaylist(categoryId: categoryId);
 
     setIsLoading(false);

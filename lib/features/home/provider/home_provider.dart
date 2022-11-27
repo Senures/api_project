@@ -1,10 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:spotify_api_project/core/entity/albums_model.dart';
-import 'package:spotify_api_project/core/entity/category_model.dart';
-import 'package:spotify_api_project/core/entity/category_playlist.dart';
-import 'package:spotify_api_project/core/entity/genres_response.dart';
+import 'package:spotify_api_project/core/entity/home_featured_model.dart';
+import 'package:spotify_api_project/core/entity/new_releases_model.dart';
 import 'package:spotify_api_project/features/home/service/home_service.dart';
 
 class HomeProvider extends ChangeNotifier {
@@ -12,11 +8,8 @@ class HomeProvider extends ChangeNotifier {
 
   late HomeService homeService;
 
-  CategoryModel? categoryModel;
-  AlbumsResponse? albumsResponse;
-  GenresResponse? genresReponse;
-
-  List<Items>? categoryList;
+  HomeFeaturedModel? homeFeaturedModel;
+  NewReleasesModel? newReleasesModel;
 
   bool isLoading = false;
 
@@ -28,30 +21,28 @@ class HomeProvider extends ChangeNotifier {
   HomeProvider(this.context) {
     homeService = HomeService();
 
-    getCategoryList();
-    //getAlbumsList();
-    getGenres();
+    getData();
   }
 
-  getCategoryList() async {
-    setIsLoading(true);
-    categoryModel = await homeService.getCategory();
 
-    if (categoryModel != null) {
-      categoryList = categoryModel!.categories!.items;
-    }
+  getData() async {
+    await getHomeFeaturedList();
+    await getHomeNewReleasesList();
+  }
+
+  getHomeFeaturedList() async {
+    setIsLoading(true);
+
+    homeFeaturedModel = await homeService.getFeaturedPlaylist();
 
     setIsLoading(false);
   }
 
-  getAlbumsList() async {
+  getHomeNewReleasesList() async {
     setIsLoading(true);
-    albumsResponse = await homeService.getAlbums();
-  }
 
-  getGenres() async {
-    setIsLoading(true);
-    genresReponse = await homeService.getGenres();
+    newReleasesModel = await homeService.getNewReleasesList();
+
     setIsLoading(false);
   }
 }
